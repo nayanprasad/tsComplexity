@@ -32,8 +32,8 @@ app.post("/getCode", async (req, res) => {
         "temperature": 0.7
     }
 
-    const response = await openai.createChatCompletion(parameters);
-    console.log(response.data);
+    // const response = await openai.createChatCompletion(parameters);
+    // console.log(response.data);
 
     const t0 = performance();
     // myFunction();
