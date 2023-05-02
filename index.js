@@ -1,10 +1,14 @@
 const express = require('express');
 const performance = require('performance-now');
 const { Configuration, OpenAIApi } = require("openai");
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 
 const configuration = new Configuration({
   organization: "org-FFGHGaY6dYhffKNzcbGtcRoL",
-  apiKey: "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",
+  apiKey: process.env.OPENAI_API_KEY ,
 });
 const openai = new OpenAIApi(configuration);
 
