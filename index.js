@@ -12,9 +12,6 @@ const openai = new OpenAIApi(configuration);
 const app = express();
 app.use(express.json());
 
-
-
-
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
@@ -23,7 +20,7 @@ app.post("/getCode", async (req, res) => {
 
     const {code, language} = req.body;
 
-    const prompt = `convert the following function to ${language} \n ${code}`;
+    const prompt = `convert the following function  ${language} code into javascript \n ${code}`;
 
     const parameters = {
         "model": "gpt-3.5-turbo",
@@ -34,15 +31,16 @@ app.post("/getCode", async (req, res) => {
     const response = await openai.createChatCompletion(parameters);
     console.log(response.data);
 
-    // fetch("https://api.openai.com/v1/chat/completions", parameters)
-    //     .then(response => response.json())
-    //     .then(data => console.log(data))
-    //     .catch(error => console.log(error));
+    const t0 = performance();
+    // myFunction();
+    const t1 = performance();
+    const time = t1 - t0;
+    console.log(`Time taken: ${t1 - t0} milliseconds`);
+
 
     res.status(200).json({
         success: true,
-        message: "Code converted successfully",
-        data: response.data
+        time: time,
     })
 
 });
@@ -54,19 +52,4 @@ app.listen(port, (req, res) => {
 });
 
 
-
-
-
-
-function myFunction() {
-  // code to measure performance of
-  // for (let i = 0; i < 100000; i++) {
-  //   console.log('Hello World!');
-  // }
-}
-
-const t0 = performance();
-myFunction();
-const t1 = performance();
-console.log(`Time taken: ${t1 - t0} milliseconds`);
 
