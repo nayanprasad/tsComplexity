@@ -1,16 +1,15 @@
-const express = require('express');
-const performance = require('performance-now');
-const {Configuration, OpenAIApi} = require("openai");
-const dotenv = require('dotenv');
+// const express = require('express');
+// const performance = require('performance-now');
+// const {Configuration, OpenAIApi} = require("openai");
+// const dotenv = require('dotenv');
+// const fetch = require("node-fetch");
+import express from 'express';
+import performance from 'performance-now';
+import {Configuration, OpenAIApi} from "openai";
+import dotenv from 'dotenv';
+import fetch from "node-fetch";
 
 dotenv.config();
-
-
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
-
 
 const app = express();
 app.use(express.json());
@@ -23,29 +22,36 @@ app.post("/getCode", async (req, res) => {
 
     const {code} = req.body;
 
-    const prompt = `only give the time complexity of below function  ${code}`;
+    const prompt = `return the time complixty value of below code ${code}`;
 
-    const parameters = {
-        "model": "gpt-3.5-turbo",
-        "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.7
+    const url = 'https://askgpt3.p.rapidapi.com/';
+    const options = {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            'X-RapidAPI-Key': '2fa138ec46msh81f511674360ed2p11ff4cjsn5bfb059fc7bf',
+            'X-RapidAPI-Host': 'askgpt3.p.rapidapi.com'
+        },
+        body: {
+            prompt: prompt,
+        }
+    };
+
+    try {
+        const response = await fetch(url, options);
+        const result = await response.text();
+        console.log(result);
+        res.status(200).json({
+            success: true,
+            data: result
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({
+            success: false,
+            message: error
+        })
     }
-
-    const response = await openai.createChatCompletion(parameters)
-        .then((response) => {
-                res.status(200).json({
-                    success: true,
-                    data: response.data
-
-                })
-            }
-        ).catch((err) => {
-                res.status(200).json({
-                    success: false,
-                    message: err.message
-                })
-            }
-        );
 });
 
 
