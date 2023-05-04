@@ -1,8 +1,3 @@
-// const express = require('express');
-// const performance = require('performance-now');
-// const {Configuration, OpenAIApi} = require("openai");
-// const dotenv = require('dotenv');
-// const fetch = require("node-fetch");
 import express from 'express';
 import performance from 'performance-now';
 import {Configuration, OpenAIApi} from "openai";
@@ -18,7 +13,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.post("/getCode", async (req, res) => {
+app.post("/getComplexity", async (req, res) => {
 
     const {code} = req.body;
 
