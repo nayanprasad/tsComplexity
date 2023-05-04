@@ -24,8 +24,8 @@ app.post("/getComplexity", async (req, res) => {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
-            'X-RapidAPI-Key': '2fa138ec46msh81f511674360ed2p11ff4cjsn5bfb059fc7bf',
-            'X-RapidAPI-Host': 'askgpt3.p.rapidapi.com'
+            'X-RapidAPI-Key': process.env.XRapidAPIKey,
+            'X-RapidAPI-Host': process.env.XRapidAPIHost
         },
         body: {
             prompt: prompt,
